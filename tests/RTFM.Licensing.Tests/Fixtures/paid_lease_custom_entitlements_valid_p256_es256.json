@@ -1,0 +1,43 @@
+{
+  "schema": "rtfm.license-fixture.v1",
+  "fixture_id": "paid_lease_custom_entitlements_valid_p256_es256",
+  "description": "Synthetic valid paid RTFM 1 lease with typed signed custom entitlements.",
+  "key_id": "lease-p256-custom-entitlements-001",
+  "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImxlYXNlLXAyNTYtY3VzdG9tLWVudGl0bGVtZW50cy0wMDEiLCJ0eXAiOiJydGZtLmxpY2Vuc2UtbGVhc2UudjErandzIn0.eyJhY3RpdmF0aW9uX2lkIjoiYWN0X2N1c3RvbV9lbnRpdGxlbWVudHNfMDAxIiwiZGV2aWNlX3RodW1icHJpbnQiOiJzaGEyNTY6Y3VzdG9tLWVudGl0bGVtZW50cy1kZXZpY2UtdGh1bWJwcmludCIsImVudGl0bGVtZW50X3JldmlzaW9uIjo3LCJlbnRpdGxlbWVudHMiOlt7ImNvZGUiOiJhcHAubWFqb3JfZmFtaWx5IiwidHlwZSI6InN0cmluZyIsInZhbHVlIjoicnRmbS0xIn0seyJjb2RlIjoiYWN0aXZhdGlvbi5saW1pdCIsInR5cGUiOiJpbnRlZ2VyIiwidmFsdWUiOjV9LHsiY29kZSI6InFhLm9wdGlvbjQuYm9vbGVhbiIsInR5cGUiOiJib29sZWFuIiwidmFsdWUiOnRydWV9LHsiY29kZSI6InFhLm9wdGlvbjQuZGF0ZXRpbWUiLCJ0eXBlIjoiZGF0ZXRpbWUiLCJ2YWx1ZSI6IjIwMjctMDgtMDRUMDA6MDA6MDAuMDAwWiJ9LHsiY29kZSI6InFhLm9wdGlvbjQuaW50ZWdlciIsInR5cGUiOiJpbnRlZ2VyIiwidmFsdWUiOjN9LHsiY29kZSI6InFhLm9wdGlvbjQuc3RyaW5nIiwidHlwZSI6InN0cmluZyIsInZhbHVlIjoic3R1ZGlvIn1dLCJleHAiOjE3OTMwNzM2MDAsImdyYWNlX3VudGlsIjoxNzk0MjgzMjAwLCJpYXQiOjE3ODUyOTc2MDAsImlzcyI6Imh0dHBzOi8vbGljZW5zZS1hcGktc3RhZ2luZy5ydGZtZGVzaWduLmNvbSIsImtpZCI6ImxlYXNlLXAyNTYtY3VzdG9tLWVudGl0bGVtZW50cy0wMDEiLCJsZWFzZV9pZCI6ImxzZV9jdXN0b21fZW50aXRsZW1lbnRzXzAwMSIsImxpY2Vuc2VfaWQiOiJsaWNfY3VzdG9tX2VudGl0bGVtZW50c18wMDEiLCJuYmYiOjE3ODUyOTc2MDAsInByb2R1Y3RfaWQiOiJydGZtLXBsYXllciIsInJlZnJlc2hfYWZ0ZXIiOjE3ODU5MDI0MDAsInJlbGVhc2VfZmFtaWx5X2lkIjoicnRmbS0xIiwicmV2b2NhdGlvbl9lcG9jaCI6MCwic2NoZW1hIjoicnRmbS5saWNlbnNlLWxlYXNlLnYxIiwic2VxdWVuY2UiOjQsInRlbmFudF9pZCI6InRlbmFudF9ydGZtX2Rlc2lnbiJ9.fmECzyHX7GBd62-BgISa-C4Ub-BsNwioL0uebkz7W0Gc2I-TggDaneIcDexRxArz2eeyK-xQLZJROkUN5iL7cw",
+  "public_jwk": {
+    "key_ops": ["verify"],
+    "ext": true,
+    "kty": "EC",
+    "x": "LkIXwrh38YIoRu5jZimtL_43IU_gSvrk5lLOpOHwv2o",
+    "y": "eztzdMbn9oNoPmiJL1f8PmxpT-DrRDy3N_L2SZE4gjA",
+    "crv": "P-256"
+  },
+  "expected_payload": {
+    "activation_id": "act_custom_entitlements_001",
+    "device_thumbprint": "sha256:custom-entitlements-device-thumbprint",
+    "entitlement_revision": 7,
+    "entitlements": [
+      { "code": "app.major_family", "type": "string", "value": "rtfm-1" },
+      { "code": "activation.limit", "type": "integer", "value": 5 },
+      { "code": "qa.option4.boolean", "type": "boolean", "value": true },
+      { "code": "qa.option4.datetime", "type": "datetime", "value": "2027-08-04T00:00:00.000Z" },
+      { "code": "qa.option4.integer", "type": "integer", "value": 3 },
+      { "code": "qa.option4.string", "type": "string", "value": "studio" }
+    ],
+    "exp": 1793073600,
+    "grace_until": 1794283200,
+    "iat": 1785297600,
+    "iss": "https://license-api-staging.rtfmdesign.com",
+    "kid": "lease-p256-custom-entitlements-001",
+    "lease_id": "lse_custom_entitlements_001",
+    "license_id": "lic_custom_entitlements_001",
+    "nbf": 1785297600,
+    "product_id": "rtfm-player",
+    "refresh_after": 1785902400,
+    "release_family_id": "rtfm-1",
+    "revocation_epoch": 0,
+    "schema": "rtfm.license-lease.v1",
+    "sequence": 4,
+    "tenant_id": "tenant_rtfm_design"
+  }
+}

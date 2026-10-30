@@ -1,0 +1,38 @@
+{
+  "schema": "rtfm.license-fixture.v1",
+  "fixture_id": "paid_lease_valid_p256_es256",
+  "description": "Synthetic valid paid RTFM 1 lease for app-side verifier development.",
+  "key_id": "lease-p256-golden-001",
+  "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImxlYXNlLXAyNTYtZ29sZGVuLTAwMSIsInR5cCI6InJ0Zm0ubGljZW5zZS1sZWFzZS52MStqd3MifQ.eyJhY3RpdmF0aW9uX2lkIjoiYWN0X2dvbGRlbl9wYWlkXzAwMSIsImRldmljZV90aHVtYnByaW50Ijoic2hhMjU2OmdvbGRlbi1kZXZpY2UtdGh1bWJwcmludCIsImVudGl0bGVtZW50cyI6W3siY29kZSI6ImFwcC5tYWpvcl9mYW1pbHkiLCJ2YWx1ZSI6InJ0Zm0tMSJ9LHsiY29kZSI6ImFjdGl2YXRpb24ubGltaXQiLCJ2YWx1ZSI6NX1dLCJleHAiOjE3OTMwNzM2MDAsImdyYWNlX3VudGlsIjoxNzk0MjgzMjAwLCJpYXQiOjE3ODUyOTc2MDAsImlzcyI6Imh0dHBzOi8vbGljZW5zZS1hcGktc3RhZ2luZy5ydGZtZGVzaWduLmNvbSIsImtpZCI6ImxlYXNlLXAyNTYtZ29sZGVuLTAwMSIsImxlYXNlX2lkIjoibHNlX2dvbGRlbl9wYWlkXzAwMSIsImxpY2Vuc2VfaWQiOiJsaWNfZ29sZGVuX3BhaWRfMDAxIiwibmJmIjoxNzg1Mjk3NjAwLCJwcm9kdWN0X2lkIjoicnRmbS1wbGF5ZXIiLCJyZWZyZXNoX2FmdGVyIjoxNzg1OTAyNDAwLCJyZWxlYXNlX2ZhbWlseV9pZCI6InJ0Zm0tMSIsInJldm9jYXRpb25fZXBvY2giOjAsInNjaGVtYSI6InJ0Zm0ubGljZW5zZS1sZWFzZS52MSIsInNlcXVlbmNlIjoxLCJ0ZW5hbnRfaWQiOiJ0ZW5hbnRfcnRmbV9kZXNpZ24ifQ.oqfOd4VSgF3b0e-_KGn_qmefmiWXaawEXuoCUjJ7PQWfbkW9wDJGQJ4Ll4ccp47pJQg0SMyf5J4E_NN6Gq23-w",
+  "public_jwk": {
+    "key_ops": ["verify"],
+    "ext": true,
+    "kty": "EC",
+    "x": "jQNM0huq222eftfUUjLqkR_ln4PIhxNYjXw04WGLQm4",
+    "y": "odtYB5gf5IkCdS5ME9dLT2i67O_4P7OgzCdUUEQ2VM0",
+    "crv": "P-256"
+  },
+  "expected_payload": {
+    "activation_id": "act_golden_paid_001",
+    "device_thumbprint": "sha256:golden-device-thumbprint",
+    "entitlements": [
+      { "code": "app.major_family", "value": "rtfm-1" },
+      { "code": "activation.limit", "value": 5 }
+    ],
+    "exp": 1793073600,
+    "grace_until": 1794283200,
+    "iat": 1785297600,
+    "iss": "https://license-api-staging.rtfmdesign.com",
+    "kid": "lease-p256-golden-001",
+    "lease_id": "lse_golden_paid_001",
+    "license_id": "lic_golden_paid_001",
+    "nbf": 1785297600,
+    "product_id": "rtfm-player",
+    "refresh_after": 1785902400,
+    "release_family_id": "rtfm-1",
+    "revocation_epoch": 0,
+    "schema": "rtfm.license-lease.v1",
+    "sequence": 1,
+    "tenant_id": "tenant_rtfm_design"
+  }
+}

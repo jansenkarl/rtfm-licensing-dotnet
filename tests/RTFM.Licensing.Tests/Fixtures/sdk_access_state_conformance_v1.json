@@ -1,0 +1,501 @@
+{
+  "schema": "rtfm.sdk-access-state-conformance.v1",
+  "fixture_id": "sdk_access_state_conformance_v1",
+  "description": "Provider-neutral synthetic access-state and exact-retry decisions for reusable SDK implementations.",
+  "evidence_stage": "post_verification_access_reduction",
+  "policy_defaults": {
+    "unlisted_combination": "reject",
+    "apple_hardware_derived_identity": "forbidden_all_distributions",
+    "app_store_authority": "store_transaction_required",
+    "floating_seat_policy": "not_implemented"
+  },
+  "lease_fixtures": [
+    {
+      "kind": "paid",
+      "fixture_id": "paid_lease_valid_p256_es256",
+      "path": "paid_lease_valid_p256_es256.json",
+      "fixture_schema": "rtfm.license-fixture.v1"
+    },
+    {
+      "kind": "trial",
+      "fixture_id": "trial_lease_valid_p256_es256_v2",
+      "path": "trial_lease_valid_p256_es256.json",
+      "fixture_schema": "rtfm.trial-lease-fixture.v1"
+    }
+  ],
+  "states": [
+    "checking",
+    "active",
+    "refreshDue",
+    "offlineGrace",
+    "expired",
+    "revoked",
+    "unavailable",
+    "error"
+  ],
+  "policy_cases": [
+    {
+      "id": "apple_developer_id_fixed_installation_key",
+      "platform_family": "apple",
+      "distribution_profile": "apple_developer_id",
+      "seat_policy": "fixed",
+      "identity_profile": "installation_key",
+      "authority_profile": "proprietary_key",
+      "accepted": true,
+      "reason": "current_direct_distribution_profile"
+    },
+    {
+      "id": "apple_app_store_store_transaction",
+      "platform_family": "apple",
+      "distribution_profile": "apple_app_store",
+      "seat_policy": "fixed",
+      "identity_profile": "installation_key",
+      "authority_profile": "store_transaction",
+      "accepted": true,
+      "reason": "store_transaction_authority_required"
+    },
+    {
+      "id": "apple_app_store_custom_key_rejected",
+      "platform_family": "apple",
+      "distribution_profile": "apple_app_store",
+      "seat_policy": "fixed",
+      "identity_profile": "installation_key",
+      "authority_profile": "proprietary_key",
+      "accepted": false,
+      "reason": "store_transaction_authority_required"
+    },
+    {
+      "id": "apple_hardware_fuzzy_rejected",
+      "platform_family": "apple",
+      "distribution_profile": "apple_developer_id",
+      "seat_policy": "fixed",
+      "identity_profile": "hardware_fuzzy_v1",
+      "authority_profile": "proprietary_key",
+      "accepted": false,
+      "reason": "apple_identity_profile_forbidden"
+    },
+    {
+      "id": "apple_app_store_hardware_fuzzy_rejected",
+      "platform_family": "apple",
+      "distribution_profile": "apple_app_store",
+      "seat_policy": "fixed",
+      "identity_profile": "hardware_fuzzy_v1",
+      "authority_profile": "store_transaction",
+      "accepted": false,
+      "reason": "apple_identity_profile_forbidden"
+    },
+    {
+      "id": "apple_windows_distribution_rejected",
+      "platform_family": "apple",
+      "distribution_profile": "windows_direct",
+      "seat_policy": "fixed",
+      "identity_profile": "installation_key",
+      "authority_profile": "proprietary_key",
+      "accepted": false,
+      "reason": "platform_distribution_mismatch"
+    },
+    {
+      "id": "non_apple_hardware_fuzzy_unqualified",
+      "platform_family": "non_apple",
+      "distribution_profile": "windows_direct",
+      "seat_policy": "fixed",
+      "identity_profile": "hardware_fuzzy_v1",
+      "authority_profile": "proprietary_key",
+      "accepted": false,
+      "reason": "future_qualification_required"
+    },
+    {
+      "id": "floating_seat_policy_not_implemented",
+      "platform_family": "any",
+      "distribution_profile": "any",
+      "seat_policy": "floating",
+      "identity_profile": "installation_key",
+      "authority_profile": "proprietary_key",
+      "accepted": false,
+      "reason": "demand_driven_future_policy"
+    }
+  ],
+  "access_cases": [
+    {
+      "id": "startup_checking",
+      "evidence": { "paid": "checking", "trial": "checking", "connectivity": "not_checked" },
+      "expected": { "state": "checking", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "paid_precedes_trial",
+      "evidence": {
+        "paid": "valid",
+        "trial": "valid",
+        "connectivity": "not_checked",
+        "evaluated_at": 1785499201,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null },
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "active", "usable": true, "authority": "paid" }
+    },
+    {
+      "id": "paid_refresh_due",
+      "evidence": {
+        "paid": "valid",
+        "trial": "none",
+        "connectivity": "available",
+        "evaluated_at": 1786000000,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null }
+      },
+      "expected": { "state": "refreshDue", "usable": true, "authority": "paid" }
+    },
+    {
+      "id": "paid_offline_grace",
+      "evidence": {
+        "paid": "valid",
+        "trial": "none",
+        "connectivity": "unavailable",
+        "paid_outcome": "network_unavailable",
+        "evaluated_at": 1793077200,
+        "paid_timing": {
+          "refresh_after": 1785902400,
+          "expires_at": 1793073600,
+          "grace_until": 1794283200,
+          "absolute_end": null
+        }
+      },
+      "expected": { "state": "offlineGrace", "usable": true, "authority": "paid" }
+    },
+    {
+      "id": "paid_service_failure_grace",
+      "evidence": {
+        "paid": "valid",
+        "trial": "none",
+        "connectivity": "available",
+        "paid_outcome": "service_unavailable",
+        "evaluated_at": 1793077200,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null }
+      },
+      "expected": { "state": "offlineGrace", "usable": true, "authority": "paid" }
+    },
+    {
+      "id": "paid_grace_elapsed",
+      "evidence": {
+        "paid": "valid",
+        "trial": "none",
+        "connectivity": "unavailable",
+        "paid_outcome": "network_unavailable",
+        "evaluated_at": 1794286800,
+        "paid_timing": {
+          "refresh_after": 1785902400,
+          "expires_at": 1793073600,
+          "grace_until": 1794283200,
+          "absolute_end": null
+        }
+      },
+      "expected": { "state": "expired", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "trial_used_when_paid_unusable",
+      "evidence": {
+        "paid": "valid",
+        "trial": "valid",
+        "connectivity": "not_checked",
+        "evaluated_at": 1794286800,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null },
+        "trial_timing": { "refresh_after": 1893456000, "expires_at": 1893542400, "grace_until": 1893585600, "absolute_end": 1896048000 }
+      },
+      "expected": { "state": "active", "usable": true, "authority": "trial" }
+    },
+    {
+      "id": "trial_refresh_due",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "available",
+        "evaluated_at": 1785574800,
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "refreshDue", "usable": true, "authority": "trial" }
+    },
+    {
+      "id": "trial_offline_grace",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "unavailable",
+        "trial_outcome": "network_unavailable",
+        "evaluated_at": 1785589200,
+        "trial_timing": {
+          "refresh_after": 1785571200,
+          "expires_at": 1785585600,
+          "grace_until": 1785628800,
+          "absolute_end": 1788091200
+        }
+      },
+      "expected": { "state": "offlineGrace", "usable": true, "authority": "trial" }
+    },
+    {
+      "id": "trial_service_failure_grace",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "available",
+        "trial_outcome": "service_unavailable",
+        "evaluated_at": 1785589200,
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "offlineGrace", "usable": true, "authority": "trial" }
+    },
+    {
+      "id": "trial_absolute_end_elapsed",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "unavailable",
+        "trial_outcome": "network_unavailable",
+        "evaluated_at": 1788094800,
+        "trial_timing": {
+          "refresh_after": 1785571200,
+          "expires_at": 1785585600,
+          "grace_until": 1785628800,
+          "absolute_end": 1788091200
+        }
+      },
+      "expected": { "state": "expired", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "trial_at_absolute_end",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "unavailable",
+        "trial_outcome": "network_unavailable",
+        "evaluated_at": 100,
+        "trial_timing": { "refresh_after": 90, "expires_at": 100, "grace_until": 100, "absolute_end": 100 }
+      },
+      "expected": { "state": "expired", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "trial_malformed_absolute_end",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "not_checked",
+        "evaluated_at": 150,
+        "trial_timing": { "refresh_after": 200, "expires_at": 300, "grace_until": 400, "absolute_end": 100 }
+      },
+      "expected": { "state": "error", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "trial_absolute_end_missing",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "not_checked",
+        "evaluated_at": 1785499201,
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": null }
+      },
+      "expected": { "state": "error", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "authority_expired",
+      "evidence": {
+        "paid": "valid",
+        "trial": "valid",
+        "connectivity": "available",
+        "evaluated_at": 1794286800,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null },
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "expired", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "authority_revoked",
+      "evidence": {
+        "paid": "valid",
+        "trial": "none",
+        "connectivity": "available",
+        "paid_outcome": "authoritative_revocation",
+        "evaluated_at": 1785297601,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null }
+      },
+      "expected": { "state": "revoked", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "trial_authority_revoked",
+      "evidence": {
+        "paid": "none",
+        "trial": "valid",
+        "connectivity": "available",
+        "trial_outcome": "authoritative_revocation",
+        "evaluated_at": 1785499201,
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "revoked", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "invalid_trial_does_not_override_paid",
+      "evidence": {
+        "paid": "valid",
+        "trial": "invalid",
+        "connectivity": "not_checked",
+        "evaluated_at": 1785499201,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null }
+      },
+      "expected": { "state": "active", "usable": true, "authority": "paid" }
+    },
+    {
+      "id": "revoked_trial_does_not_override_paid",
+      "evidence": {
+        "paid": "valid",
+        "trial": "valid",
+        "connectivity": "available",
+        "trial_outcome": "authoritative_revocation",
+        "evaluated_at": 1785499201,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null },
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "active", "usable": true, "authority": "paid" }
+    },
+    {
+      "id": "invalid_paid_allows_valid_trial",
+      "evidence": {
+        "paid": "invalid",
+        "trial": "valid",
+        "connectivity": "not_checked",
+        "evaluated_at": 1785499201,
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "active", "usable": true, "authority": "trial" }
+    },
+    {
+      "id": "revoked_paid_allows_valid_trial",
+      "evidence": {
+        "paid": "valid",
+        "trial": "valid",
+        "connectivity": "available",
+        "paid_outcome": "authoritative_revocation",
+        "evaluated_at": 1785499201,
+        "paid_timing": { "refresh_after": 1785902400, "expires_at": 1793073600, "grace_until": 1794283200, "absolute_end": null },
+        "trial_timing": { "refresh_after": 1785571200, "expires_at": 1785585600, "grace_until": 1785628800, "absolute_end": 1788091200 }
+      },
+      "expected": { "state": "active", "usable": true, "authority": "trial" }
+    },
+    {
+      "id": "service_unavailable_without_cached_authority",
+      "evidence": { "paid": "none", "trial": "none", "connectivity": "unavailable" },
+      "expected": { "state": "unavailable", "usable": false, "authority": "none" }
+    },
+    {
+      "id": "invalid_local_state",
+      "evidence": { "paid": "invalid", "trial": "none", "connectivity": "not_checked" },
+      "expected": { "state": "error", "usable": false, "authority": "none" }
+    }
+  ],
+  "retry_cases": [
+    {
+      "id": "paid_idempotency_in_progress",
+      "code": "idempotency_in_progress",
+      "http_status": 409,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "paid_idempotency_reservation_retry",
+      "code": "idempotency_conflict",
+      "http_status": 409,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "paid_idempotency_state_conflict",
+      "code": "idempotency_state_conflict",
+      "http_status": 409,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "paid_authority_conflict",
+      "code": "activation_state_conflict",
+      "http_status": 409,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "paid_idempotency_authority_unavailable",
+      "code": "idempotency_authority_unavailable",
+      "http_status": 503,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "paid_idempotency_lease_conflict",
+      "code": "idempotency_lease_conflict",
+      "http_status": 503,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "paid_idempotency_persistence_failed",
+      "code": "idempotency_persistence_failed",
+      "http_status": 503,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "paid_idempotency_storage_unavailable",
+      "code": "idempotency_storage_unavailable",
+      "http_status": 503,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    },
+    {
+      "id": "durable_commit_failed",
+      "code": "local_storage_commit_failed",
+      "http_status": null,
+      "retryable": true,
+      "client_action": "retry_exact_pending_request",
+      "preserve_pending_journal": true,
+      "preserve_request_body": true,
+      "preserve_credential_reference": true,
+      "create_new_idempotency_key": false,
+      "create_new_installation_identity": false
+    }
+  ]
+}

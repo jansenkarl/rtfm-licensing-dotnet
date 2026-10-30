@@ -1,0 +1,42 @@
+{
+  "schema": "rtfm.trial-lease-fixture.v1",
+  "fixture_id": "trial_lease_valid_p256_es256_v2",
+  "description": "Synthetic valid native trial RTFM 1 lease for app-side verifier development.",
+  "key_id": "trial-lease-p256-golden-002",
+  "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6InRyaWFsLWxlYXNlLXAyNTYtZ29sZGVuLTAwMiIsInR5cCI6InJ0Zm0udHJpYWwtbGVhc2UudjErandzIn0.eyJkZXZpY2VfdGh1bWJwcmludCI6InNoYTI1Njpnb2xkZW4tdHJpYWwtZGV2aWNlLXRodW1icHJpbnQiLCJlbnRpdGxlbWVudHMiOlt7ImNvZGUiOiJhcHAubWFqb3JfZmFtaWx5IiwidmFsdWUiOiJydGZtLTEifSx7ImNvZGUiOiJ0cmlhbCIsInZhbHVlIjp0cnVlfSx7ImNvZGUiOiJhY3RpdmF0aW9uLmxpbWl0IiwidmFsdWUiOjV9XSwiZXhwIjoxNzg1NTg1NjAwLCJncmFjZV91bnRpbCI6MTc4NTYyODgwMCwiaWF0IjoxNzg1NDk5MjAwLCJpc3MiOiJodHRwczovL2xpY2Vuc2UtYXBpLXN0YWdpbmcucnRmbWRlc2lnbi5jb20iLCJraWQiOiJ0cmlhbC1sZWFzZS1wMjU2LWdvbGRlbi0wMDIiLCJsZWFzZV9raW5kIjoidHJpYWwiLCJuYmYiOjE3ODU0OTkyMDAsInBvbGljeV92ZXJzaW9uIjoiaW5zdGFsbGF0aW9uX2tleV92MSIsInByb2R1Y3RfaWQiOiJydGZtLXBsYXllciIsInJlZnJlc2hfYWZ0ZXIiOjE3ODU1NzEyMDAsInJlbGVhc2VfZmFtaWx5X2lkIjoicnRmbS0xIiwic2NoZW1hIjoicnRmbS50cmlhbC1sZWFzZS52MSIsInNlcXVlbmNlIjoxLCJ0ZW5hbnRfaWQiOiJ0ZW5hbnRfcnRmbV9kZXNpZ24iLCJ0cmlhbF9lbmRzX2F0IjoiMjAyNi0wOC0zMFQxMjowMDowMC4wMDBaIiwidHJpYWxfaWQiOiJ0cmxfZ29sZGVuX3RyaWFsXzAwMSIsInRyaWFsX2xlYXNlX2lkIjoidGxzZV9nb2xkZW5fdHJpYWxfMDAxIiwidHJpYWxfcmV2aXNpb24iOjEsInRyaWFsX3N0YXJ0ZWRfYXQiOiIyMDI2LTA3LTMxVDEyOjAwOjAwLjAwMFoifQ.LB2HfVTN6K6m7OvIjFb7U1gNj15UQYXaRJgQazBGc5F6_IfOpKyX_l0TSWHo6TW8OXMMTnonDvuiBIUSxEWTLQ",
+  "public_jwk": {
+    "key_ops": ["verify"],
+    "ext": true,
+    "kty": "EC",
+    "x": "1UntChVR3iPdu9snW5H4Qwjbwup5bbKkS1Iv44k-Aqo",
+    "y": "ZFFng9TXyCcNJVikNKnjomFbtb8wCSn96LOakTSSaR4",
+    "crv": "P-256"
+  },
+  "expected_payload": {
+    "device_thumbprint": "sha256:golden-trial-device-thumbprint",
+    "entitlements": [
+      { "code": "app.major_family", "value": "rtfm-1" },
+      { "code": "trial", "value": true },
+      { "code": "activation.limit", "value": 5 }
+    ],
+    "exp": 1785585600,
+    "grace_until": 1785628800,
+    "iat": 1785499200,
+    "iss": "https://license-api-staging.rtfmdesign.com",
+    "kid": "trial-lease-p256-golden-002",
+    "lease_kind": "trial",
+    "nbf": 1785499200,
+    "policy_version": "installation_key_v1",
+    "product_id": "rtfm-player",
+    "refresh_after": 1785571200,
+    "release_family_id": "rtfm-1",
+    "schema": "rtfm.trial-lease.v1",
+    "sequence": 1,
+    "tenant_id": "tenant_rtfm_design",
+    "trial_ends_at": "2026-08-30T12:00:00.000Z",
+    "trial_id": "trl_golden_trial_001",
+    "trial_lease_id": "tlse_golden_trial_001",
+    "trial_revision": 1,
+    "trial_started_at": "2026-07-31T12:00:00.000Z"
+  }
+}

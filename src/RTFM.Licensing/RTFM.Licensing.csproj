@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <RootNamespace>RTFM.Licensing</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.1.0</Version>
+    <PackageId>RTFMDesign.Licensing</PackageId>
+    <Authors>RTFM Design</Authors>
+    <Description>Licensing for Windows apps with RTFM License Manager: product key activation, offline use with signed leases, quiet renewal, deactivation, trials, and fixed-term or subscription keys.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>licensing;license-key;activation;trial;windows;wpf;winforms;winui</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="RTFM.Licensing.Tests" />
+    <!-- DPAPI for the license state file on Windows (FileLicenseStore). -->
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
