@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RTFM.Licensing\RTFM.Licensing.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <!-- Lets the solution build on a Mac; the app itself runs only on Windows. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The App integration file from the License Manager ships beside the app. It is not checked in. -->
+    <None Include="app-integration.json" Condition="Exists('app-integration.json')" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
