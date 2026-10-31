@@ -5,7 +5,8 @@ signed leases, quiet renewal, deactivation, trials, and fixed-term or subscripti
 
 **Version 0.1.0.** MIT licensed (see `LICENSE`). Changes are listed in `CHANGELOG.md`.
 
-**Docs:** [Getting started](docs/getting-started.md)
+**Docs:** [Getting started](docs/getting-started.md) · [API reference](docs/reference.md) ·
+[Troubleshooting](docs/troubleshooting.md) · [AI integration guide](docs/ai-integration-guide.md) ([`llms.txt`](llms.txt))
 
 - .NET 8 or later, on Windows 10 or 11 (x64 or Arm64). Tested with WPF; WinForms and WinUI use the same calls. The
   only dependency is Microsoft's `System.Security.Cryptography.ProtectedData`.
@@ -58,6 +59,17 @@ lease is due.
 
 The full walkthrough for a WPF app, with an enter-key window and a License menu with **Deactivate this PC**, is in
 [Getting started](docs/getting-started.md). A working WPF app is in `samples/WpfSample`.
+
+## Using an AI coding assistant
+
+Put your App integration file in the project. Then give your assistant this prompt:
+
+```text
+Add RTFM licensing to this Windows app with the NuGet package RTFMDesign.Licensing (0.1.*).
+Follow the integration guide exactly:
+https://raw.githubusercontent.com/jansenkarl/rtfm-licensing-dotnet/main/docs/ai-integration-guide.md
+The App integration file is app-integration.json in the project. Do not change it.
+```
 
 ## Try it from the command line
 

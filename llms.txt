@@ -1,0 +1,27 @@
+# RTFMDesign.Licensing
+
+> .NET package (.NET 8+, Windows 10 and 11) that adds RTFM License Manager licensing to a Windows app (WPF, WinForms
+> or WinUI): product key activation, offline use with signed leases, quiet renewal, deactivation, trials, and
+> fixed-term or subscription keys. NuGet ID `RTFMDesign.Licensing`, namespace `RTFM.Licensing`. Version 0.1.0, MIT
+> licensed. Repository: https://github.com/jansenkarl/rtfm-licensing-dotnet
+
+To integrate it, read the AI integration guide first and follow it exactly. It has the rules, the complete WPF code
+and a checklist. The app needs the developer's App integration file (`app-integration.json`, schema
+`rtfm.app-integration.v1`), downloaded from the License Manager and copied next to the app's executable. It is
+public. Never write or edit it; ask the developer for it if it is missing.
+
+Key rules: one `RTFMLicense.ForApp(publisher, app)` per app, on the UI thread; `await license.StartAsync()` once at
+launch; gate on `license.Status.AllowsUse`; never block on the network or treat offline as an error; never log or
+store product keys; show `LicensingException.Message` as is only for `LicensingFailure.Refused`; always offer
+deactivation; don't reimplement verification.
+
+## Docs
+
+- [AI integration guide](https://raw.githubusercontent.com/jansenkarl/rtfm-licensing-dotnet/main/docs/ai-integration-guide.md): instructions and code for coding assistants
+- [Getting started](https://raw.githubusercontent.com/jansenkarl/rtfm-licensing-dotnet/main/docs/getting-started.md): the License Manager setup, the package, the code, testing and shipping
+- [API reference](https://raw.githubusercontent.com/jansenkarl/rtfm-licensing-dotnet/main/docs/reference.md): every public type, status, reason and refusal code
+- [Troubleshooting](https://raw.githubusercontent.com/jansenkarl/rtfm-licensing-dotnet/main/docs/troubleshooting.md): common errors and their fixes
+
+## Optional
+
+- [Changelog](https://raw.githubusercontent.com/jansenkarl/rtfm-licensing-dotnet/main/CHANGELOG.md): versions and changes
