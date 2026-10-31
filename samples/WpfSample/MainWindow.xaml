@@ -1,0 +1,37 @@
+<Window x:Class="WpfSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RTFM WPF Sample" Width="460" SizeToContent="Height" ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen" FontFamily="Segoe UI" FontSize="14" Background="#FAFBFA">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="14,6" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="MinWidth" Value="96" />
+        </Style>
+    </Window.Resources>
+    <StackPanel Margin="24">
+        <TextBlock x:Name="ProductText" FontSize="12" Foreground="#5B6560" />
+        <TextBlock x:Name="StatusText" FontSize="22" FontWeight="SemiBold" Margin="0,4,0,0" Text="Checking…" TextWrapping="Wrap" />
+        <TextBlock x:Name="DetailText" Foreground="#5B6560" Margin="0,4,0,0" TextWrapping="Wrap" />
+
+        <!-- Shown while the app is not licensed. -->
+        <StackPanel x:Name="EnterKeyPanel" Margin="0,20,0,0" Visibility="Collapsed">
+            <Label Content="_Product key" Target="{Binding ElementName=KeyBox}" Padding="0,0,0,4" />
+            <TextBox x:Name="KeyBox" Padding="6,5" FontFamily="Consolas" TextChanged="OnKeyChanged" />
+            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                <Button x:Name="ActivateButton" Content="_Activate" IsDefault="True" IsEnabled="False" Click="OnActivate" />
+                <Button x:Name="TrialButton" Content="Start _trial" Click="OnStartTrial" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Shown while the app is licensed or in a trial. -->
+        <StackPanel x:Name="LicensedPanel" Orientation="Horizontal" Margin="0,20,0,0" Visibility="Collapsed">
+            <Button x:Name="CheckButton" Content="_Check now" Click="OnCheckNow" />
+            <Button x:Name="DeactivateButton" Content="_Deactivate" Click="OnDeactivate" />
+        </StackPanel>
+
+        <TextBlock x:Name="ErrorText" Foreground="#B42318" Margin="0,16,0,0" TextWrapping="Wrap" Visibility="Collapsed" />
+        <TextBlock x:Name="BuildText" FontSize="11" Foreground="#8A938E" Margin="0,20,0,0" TextWrapping="Wrap" />
+    </StackPanel>
+</Window>

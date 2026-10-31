@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/samples/">
     <Project Path="samples/LicenseSample/LicenseSample.csproj" />
+    <Project Path="samples/WpfSample/WpfSample.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/RTFM.Licensing/RTFM.Licensing.csproj" />
