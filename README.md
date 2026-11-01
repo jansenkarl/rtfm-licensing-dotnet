@@ -3,10 +3,10 @@
 .NET package for adding RTFM License Manager licensing to a Windows app: product key activation, offline use with
 signed leases, quiet renewal, deactivation, trials, and fixed-term or subscription keys.
 
-**Version 0.1.0.** MIT licensed (see `LICENSE`). Changes are listed in `CHANGELOG.md`.
+**Version 0.1.0.** MIT licensed (see [LICENSE](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/LICENSE)). Changes are listed in [CHANGELOG.md](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/CHANGELOG.md).
 
-**Docs:** [Getting started](docs/getting-started.md) · [API reference](docs/reference.md) ·
-[Troubleshooting](docs/troubleshooting.md) · [AI integration guide](docs/ai-integration-guide.md) ([`llms.txt`](llms.txt))
+**Docs:** [Getting started](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/getting-started.md) · [API reference](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/reference.md) ·
+[Troubleshooting](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/troubleshooting.md) · [AI integration guide](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/ai-integration-guide.md) ([`llms.txt`](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/llms.txt))
 
 - .NET 8 or later, on Windows 10 or 11 (x64 or Arm64). Tested with WPF; WinForms and WinUI use the same calls. The
   only dependency is Microsoft's `System.Security.Cryptography.ProtectedData`.
@@ -58,7 +58,7 @@ Offer **Deactivate** (`license.DeactivateAsync()`) so a customer can move their 
 lease is due.
 
 The full walkthrough for a WPF app, with an enter-key window and a License menu with **Deactivate this PC**, is in
-[Getting started](docs/getting-started.md). A working WPF app is in `samples/WpfSample`.
+[Getting started](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/getting-started.md). A working WPF app is in `samples/WpfSample`.
 
 ## Using an AI coding assistant
 

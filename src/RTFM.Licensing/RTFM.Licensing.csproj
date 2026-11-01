@@ -14,7 +14,22 @@
     <Description>Licensing for Windows apps with RTFM License Manager: product key activation, offline use with signed leases, quiet renewal, deactivation, trials, and fixed-term or subscription keys.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>licensing;license-key;activation;trial;windows;wpf;winforms;winui</PackageTags>
+    <Copyright>Copyright (c) 2026 RTFM Design</Copyright>
+    <PackageProjectUrl>https://github.com/jansenkarl/rtfm-licensing-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jansenkarl/rtfm-licensing-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <!-- Debugging symbols (.snupkg) with Source Link, so stepping into the package shows its source. -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="RTFM.Licensing.Tests" />

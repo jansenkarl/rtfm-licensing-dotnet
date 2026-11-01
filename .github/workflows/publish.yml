@@ -1,0 +1,34 @@
+# Publishes RTFMDesign.Licensing to nuget.org, only when started by hand (Actions → Publish to NuGet → Run workflow).
+# No API key is stored: nuget.org's Trusted Publishing policy "rtfm-licensing-dotnet" (owner rtfmdesign) accepts this
+# repository's publish.yml and trades GitHub's identity token for a short-lived key. The version is the <Version> in
+# src/RTFM.Licensing/RTFM.Licensing.csproj; nuget.org refuses a version that already exists.
+name: Publish to NuGet
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Test
+        run: dotnet test RTFMLicensing.slnx -c Release
+      - name: Pack
+        run: dotnet pack src/RTFM.Licensing/RTFM.Licensing.csproj -c Release -o out
+      - name: Log in to nuget.org (Trusted Publishing)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: rtfmdesign
+      - name: Push
+        run: dotnet nuget push "out/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
