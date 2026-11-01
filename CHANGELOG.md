@@ -3,7 +3,7 @@
 Versions follow [Semantic Versioning](https://semver.org). Before 1.0.0, a minor version (0.x.0) may change the
 public API; a patch version (0.x.y) does not.
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-11-01)
 
 First version, ported from the Swift package 0.1.0 and tested against the RTFM licensing staging service on Windows 11
 (x64 and Arm64).
