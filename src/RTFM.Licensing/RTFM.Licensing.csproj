@@ -11,9 +11,9 @@
     <Version>0.1.0</Version>
     <PackageId>RTFMDesign.Licensing</PackageId>
     <Authors>RTFM Design</Authors>
-    <Description>Licensing for Windows apps with RTFM License Manager: product key activation, offline use with signed leases, quiet renewal, deactivation, trials, and fixed-term or subscription keys.</Description>
+    <Description>Licensing for Windows and Linux apps with RTFM License Manager: product key activation, offline use with signed leases, quiet renewal, deactivation, trials, and fixed-term or subscription keys.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>licensing;license-key;activation;trial;windows;wpf;winforms;winui</PackageTags>
+    <PackageTags>licensing;license-key;activation;trial;windows;linux;wpf;winforms;winui</PackageTags>
     <Copyright>Copyright (c) 2026 RTFM Design</Copyright>
     <PackageProjectUrl>https://github.com/jansenkarl/rtfm-licensing-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jansenkarl/rtfm-licensing-dotnet</RepositoryUrl>

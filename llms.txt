@@ -1,7 +1,7 @@
 # RTFMDesign.Licensing
 
-> .NET package (.NET 8+, Windows 10 and 11) that adds RTFM License Manager licensing to a Windows app (WPF, WinForms
-> or WinUI): product key activation, offline use with signed leases, quiet renewal, deactivation, trials, and
+> .NET package (.NET 8+, Windows 10 and 11, Linux) that adds RTFM License Manager licensing to a Windows app (WPF,
+> WinForms or WinUI) or any .NET app on Linux: product key activation, offline use with signed leases, quiet renewal, deactivation, trials, and
 > fixed-term or subscription keys. NuGet ID `RTFMDesign.Licensing`, namespace `RTFM.Licensing`. Version 0.1.0, MIT
 > licensed. Repository: https://github.com/jansenkarl/rtfm-licensing-dotnet
 

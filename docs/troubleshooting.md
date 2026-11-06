@@ -14,8 +14,8 @@ if in doubt. The error names the problem, for example `app-integration.json is n
 
 ## `unsupported_platform`
 
-The version's **Platforms** don't include Windows. In the License Manager, open the version's **Edit version** and add
-Windows. Adding a platform is always allowed; existing Mac keys then also activate on Windows.
+The version's **Platforms** don't include the app's platform (Windows or Linux). In the License Manager, open the
+version's **Edit version** and add it. Adding a platform is always allowed; existing keys then also activate on it.
 
 ## `invalid_product_key`
 
@@ -45,21 +45,29 @@ The installation's key was in the TPM or in the user's profile, so a reset remov
 device. The customer frees the old activation on the self-service page, then activates again. Uninstalling and
 reinstalling the app does not remove the license: it lives in `%LOCALAPPDATA%`, not in the app's folder.
 
-## Another Windows user on the same PC isn't licensed
+## The license is gone after reinstalling Linux or deleting the home folder
 
-Each Windows user has their own license, encrypted for that user, and uses a seat of their own. They activate with
-the same key if it has a seat free.
+On Linux the installation's key and license are in `~/.local/share/<publisher>/<app>/license-state.dat`, so a new
+system, a new user or a removed file counts as a new device. Free the old activation on the self-service page, then
+activate again. A home folder restored from a backup keeps the license.
+
+## Another user on the same PC isn't licensed
+
+Each Windows or Linux user has their own license and uses a seat of their own. They activate with the same key if it
+has a seat free.
 
 ## Start over on a test PC
 
 Deactivate first, so the seat is released. Then delete `%LOCALAPPDATA%\<publisher>\<app>\license-state.dat` (the names
-passed to `ForApp`). The samples keep theirs under `%LOCALAPPDATA%\RTFM Sample`. The TPM key the installation used
-stays in Windows key storage, unused.
+passed to `ForApp`), or on Linux `~/.local/share/<publisher>/<app>/license-state.dat`. The samples keep theirs under
+`%LOCALAPPDATA%\RTFM Sample` (`~/.local/share/RTFM Sample` on Linux). The TPM key the installation used stays in
+Windows key storage, unused.
 
 ## `Status` is `NotLicensed` with `ClockRolledBack`
 
 The PC's clock is more than 5 minutes earlier than a time the app has already seen. Turn on **Set time automatically**
-in **Settings → Time & language → Date & time**, then reopen the app.
+in **Settings → Time & language → Date & time** (on Linux, turn on network time, for example
+`timedatectl set-ntp true`), then reopen the app.
 
 ## `Status` is `NotLicensed` with `Expired`
 
@@ -78,7 +86,9 @@ for the same environment as the service it talks to, downloaded from the right v
 ## `LicensingFailure.Storage`
 
 The state file could not be read, written or decrypted. DPAPI ties it to the Windows user, so a file copied from
-another user or PC can't be read; delete it and activate again (after freeing the old activation if needed).
+another user or PC can't be read; delete it and activate again (after freeing the old activation if needed). On
+Linux, check that the user can write to `~/.local/share` (or `$XDG_DATA_HOME`) and owns the app's folder there; a
+service running as its own user keeps its own license in that user's home.
 
 ## `dotnet test` says "You must install or update .NET"
 
@@ -88,5 +98,5 @@ The tests target .NET 8. With only a newer SDK installed, add the .NET 8 runtime
 ## Still stuck
 
 Open an issue at https://github.com/jansenkarl/rtfm-licensing-dotnet/issues with the package version, the Windows
-version, the error code, and what you did. **Never include a product key**, a customer's email or the license state
+version or Linux distribution, the error code, and what you did. **Never include a product key**, a customer's email or the license state
 file.

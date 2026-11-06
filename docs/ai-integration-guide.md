@@ -20,7 +20,9 @@ You don't need a product key to write the code. The developer tests with their o
 
 ## Rules
 
-- .NET 8 or later. The code below is for WPF; for WinForms or WinUI, keep the same structure and calls.
+- .NET 8 or later. The code below is for WPF; for WinForms or WinUI, keep the same structure and calls. For a Linux
+  app, keep the same calls: one `RTFMLicense`, `StartAsync()` at launch, the gate on `Status.AllowsUse`, and the
+  app's own way to ask for a key and to deactivate (the WPF windows below are Windows only).
 - Use only the public API below. Do not implement license checks, signature verification, network calls or storage
   yourself, and do not call the licensing service directly.
 - Create exactly **one** `RTFMLicense` per app, with `RTFMLicense.ForApp(...)`, **on the UI thread** at startup, and
@@ -301,8 +303,8 @@ Then tell the developer to test it:
 2. Close it, disconnect from the network, reopen: still licensed.
 3. **License → Deactivate this PC**, then activate the same key again.
 
-If activation fails with `unsupported_platform`, the developer adds Windows to the version's **Platforms** in the
-License Manager (**Edit version**).
+If activation fails with `unsupported_platform`, the developer adds Windows (or Linux, for a Linux app) to the
+version's **Platforms** in the License Manager (**Edit version**).
 
 ## API summary
 

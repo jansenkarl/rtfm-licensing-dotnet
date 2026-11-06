@@ -141,17 +141,28 @@ For tests, tools and custom storage. Apps don't need them.
 |---|---|
 | `AppIntegration(ReadOnlySpan<byte> json)`, `AppIntegration.FromFile(path)` | Parses an App integration file (`rtfm.app-integration.v1`). Throws `VerificationException`. |
 | `ILicenseStore` | `Load()`, `Commit(LicenseState)` (atomic), `Erase()`. |
-| `FileLicenseStore(path)`, `FileLicenseStore.ForApp(publisher, app)` | The default store: one file, encrypted with DPAPI on Windows, readable only by the user elsewhere. `Path` is the file. |
+| `FileLicenseStore(path)`, `FileLicenseStore.ForApp(publisher, app)` | The default store: one file, encrypted with DPAPI on Windows, readable only by the user (mode 600) on Linux and macOS. `Path` is the file. |
 | `MemoryLicenseStore()` | An in-memory store for tests. |
 | `LicensingClient` | The client behind `RTFMLicense`, returning verified `Lease` values. |
 | `StoreException`, `VerificationException` | Storage and verification failures, wrapped in `LicensingException` by the client. |
 
 ## Platforms
 
-On Windows the installation key is a non-exportable P-256 key in the TPM ("Microsoft Platform Crypto Provider") when
-the PC has a usable one, otherwise a software key kept in the encrypted state file. The package also runs on macOS
-and Linux with a software key, which is useful for tests; the version's Platforms must include the platform the app
-reports (`windows`, `macos` or `linux`).
+The app reports its platform as `windows`, `linux` or `macos`, and the version's **Platforms** must include it. A
+version for several platforms sells one key for all of them, and each computer uses one seat.
+
+| | Windows 10 and 11 | Linux |
+|---|---|---|
+| Installation key | A non-exportable P-256 key in the TPM ("Microsoft Platform Crypto Provider") when the PC has a usable one, otherwise a software key in the state file | A software key in the state file |
+| State file (`ForApp`) | `%LOCALAPPDATA%\<publisher>\<app>\license-state.dat` | `~/.local/share/<publisher>/<app>/license-state.dat`, or under `$XDG_DATA_HOME` when that is set |
+| Protection | Encrypted for the Windows user with DPAPI | Readable and writable only by the user (mode 600) |
+| UI | WPF, WinForms, WinUI | Any .NET app, including console apps and services |
+
+`StatusChanged` and `PropertyChanged` are raised on the synchronization context `RTFMLicense` was created on; in an app
+without one, such as a console app, they are raised on the thread that changed the status, often a thread-pool thread.
+
+The package also runs on macOS with a software key, which is useful for tests. Mac apps use the
+[Swift package](https://github.com/jansenkarl/rtfm-licensing-swift).
 
 ## Versions
 
