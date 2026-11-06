@@ -1,16 +1,18 @@
 # RTFM Licensing for .NET
 
-.NET package for adding RTFM License Manager licensing to a Windows app: product key activation, offline use with
-signed leases, quiet renewal, deactivation, trials, and fixed-term or subscription keys.
+.NET package for adding RTFM License Manager licensing to a Windows or Linux app: product key activation, offline use
+with signed leases, quiet renewal, deactivation, trials, and fixed-term or subscription keys.
 
 **Version 0.1.0.** MIT licensed (see [LICENSE](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/LICENSE)). Changes are listed in [CHANGELOG.md](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/CHANGELOG.md).
 
 **Docs:** [Getting started](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/getting-started.md) · [API reference](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/reference.md) ·
 [Troubleshooting](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/troubleshooting.md) · [AI integration guide](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/docs/ai-integration-guide.md) ([`llms.txt`](https://github.com/jansenkarl/rtfm-licensing-dotnet/blob/main/llms.txt))
 
-- .NET 8 or later, on Windows 10 or 11 (x64 or Arm64). Tested with WPF; WinForms and WinUI use the same calls. The
-  only dependency is Microsoft's `System.Security.Cryptography.ProtectedData`.
-- No hardware fingerprinting: each installation has its own key, kept in the PC's TPM when it has one.
+- .NET 8 or later, on Windows 10 or 11 (x64 or Arm64) or on Linux. Tested with WPF; WinForms and
+  WinUI use the same calls, and on Linux any .NET app does. The only dependency is Microsoft's
+  `System.Security.Cryptography.ProtectedData`, used on Windows.
+- No hardware fingerprinting: each installation has its own key, kept in the PC's TPM when it has one, or on Linux
+  in a file only that user can read.
 - Works offline: a lease lasts weeks, and if the service can't be reached when it runs out, a grace period follows.
 
 ## Quickstart
@@ -27,7 +29,8 @@ signed leases, quiet renewal, deactivation, trials, and fixed-term or subscripti
 ```csharp
 using RTFM.Licensing;
 
-// Reads app-integration.json beside the app; keeps the license in %LOCALAPPDATA%\Northwind\Tidepool.
+// Reads app-integration.json beside the app; keeps the license in %LOCALAPPDATA%\Northwind\Tidepool
+// (~/.local/share/Northwind/Tidepool on Linux).
 var license = RTFMLicense.ForApp("Northwind", "Tidepool");
 await license.StartAsync();
 if (!license.Status.AllowsUse)
@@ -85,16 +88,29 @@ dotnet run --project samples\LicenseSample -- $json status
 dotnet run --project samples\LicenseSample -- $json deactivate
 ```
 
+On Linux:
+
+```bash
+json=~/Downloads/app-integration-my-app-1-staging.json
+read -rsp 'Product key: ' RTFM_PRODUCT_KEY && export RTFM_PRODUCT_KEY; echo
+dotnet run --project samples/LicenseSample -- "$json" activate
+unset RTFM_PRODUCT_KEY
+dotnet run --project samples/LicenseSample -- "$json" status
+dotnet run --project samples/LicenseSample -- "$json" deactivate
+```
+
 Or try the WPF sample: copy the file to `samples\WpfSample\app-integration.json` and run
 `dotnet run --project samples\WpfSample`.
 
 ## How it works
 
 - At first activation or trial, the SDK creates a P-256 key for this installation. On Windows it is a non-exportable
-  key in the TPM ("Microsoft Platform Crypto Provider") when the PC has one, otherwise a software key.
-- Everything the SDK keeps is one file, `%LOCALAPPDATA%\<publisher>\<app>\license-state.dat`, encrypted for the
-  Windows user with DPAPI and replaced atomically. Each Windows user on a PC has their own license and uses their own
-  seat.
+  key in the TPM ("Microsoft Platform Crypto Provider") when the PC has one, otherwise a software key. On Linux it
+  is a software key.
+- Everything the SDK keeps is one file, replaced atomically. On Windows it is
+  `%LOCALAPPDATA%\<publisher>\<app>\license-state.dat`, encrypted for the Windows user with DPAPI. On Linux it is
+  `~/.local/share/<publisher>/<app>/license-state.dat` (under `$XDG_DATA_HOME` when that is set), readable and
+  writable only by the user (mode 600). Each user on a computer has their own license and uses their own seat.
 - Activation sends the product key with a signed one-time challenge. The service answers with a signed lease bound to
   this installation. The SDK checks it against your Product's key list, which is signed by the root key pinned in
   `app-integration.json`.
@@ -108,4 +124,6 @@ Or try the WPF sample: copy the file to `samples\WpfSample\app-integration.json`
 0.1.0 was tested against the RTFM licensing staging service on a Windows 11 Arm64 VM and a Windows 11 x64 PC, both
 with a TPM: activation, status at launch, renewal, deactivation and a trial, from the command-line and WPF samples.
 Its 38 tests, ported from the Swift package (signed lease fixtures, key rotation, the request journal and the
-conformance cases), pass on Windows and macOS.
+conformance cases), pass on Windows, macOS and Linux (Ubuntu, in the publish workflow). Linux became a platform of
+the service on November 4, 2026; no Linux app has activated against it yet, so please report anything that doesn't
+work.

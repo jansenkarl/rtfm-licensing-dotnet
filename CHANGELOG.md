@@ -3,6 +3,12 @@
 Versions follow [Semantic Versioning](https://semver.org). Before 1.0.0, a minor version (0.x.0) may change the
 public API; a patch version (0.x.y) does not.
 
+## Unreleased
+
+- Docs: Linux is a supported platform (the RTFM licensing service added it on November 4, 2026). Where the state file
+  is kept on Linux, the Linux command-line sample, and Linux troubleshooting. The package's description and tags name
+  Linux. No code changes.
+
 ## 0.1.0 (2026-11-01)
 
 First version, ported from the Swift package 0.1.0 and tested against the RTFM licensing staging service on Windows 11

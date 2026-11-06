@@ -25,8 +25,10 @@ calls.
 dotnet add package RTFMDesign.Licensing
 ```
 
-Requirements: .NET 8 or later, Windows 10 or 11. The package also builds and runs on macOS and Linux (with a
-software key and a file readable only by the user), which is useful for tests.
+Requirements: .NET 8 or later, on Windows 10 or 11 or on Linux. On Linux the installation's key is a software key and
+the license is kept in a file only that user can read (see [Platforms](reference.md#platforms)); everything else in
+this guide is the same, except the WPF code, which is Windows only. Make sure the version's **Platforms** includes
+**Linux** too. The package also runs on macOS, which is useful for tests; Mac apps use the Swift package.
 
 ## 3. Add the App integration file
 
